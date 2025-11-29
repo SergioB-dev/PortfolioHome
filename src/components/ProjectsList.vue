@@ -18,14 +18,25 @@ async function fetchProjects() {
   error.value = null
   isLoading.value = true
   try {
-    const response = await fetch(API_URL)
+    const response = await fetch(API_URL, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
     if (!response.ok) {
       throw new Error(`Failed with status ${response.status}`)
     }
     const data = await response.json()
     projects.value = Array.isArray(data) ? data : [data]
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'Unexpected error'
+    if (err instanceof TypeError && err.message.includes('fetch')) {
+      error.value =
+        'CORS error: Backend must allow requests from this origin. Check backend CORS configuration.'
+    } else {
+      error.value = err instanceof Error ? err.message : 'Unexpected error'
+    }
   } finally {
     isLoading.value = false
   }
