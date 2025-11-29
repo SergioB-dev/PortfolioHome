@@ -5,6 +5,11 @@ import viteConfig from './vite.config'
 export default mergeConfig(
   viteConfig,
   defineConfig({
+    server: {
+      cors: {
+        origin: 'https://acbackendswift-90223035273.us-east4.run.app',
+      },
+    },
     test: {
       environment: 'jsdom',
       exclude: [...configDefaults.exclude, 'e2e/**'],
