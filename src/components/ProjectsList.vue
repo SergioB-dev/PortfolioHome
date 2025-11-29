@@ -7,11 +7,18 @@ const projects = ref<Project[]>([])
 const isLoading = ref(false)
 const error = ref<string | null>(null)
 
+// Use environment variable for API base URL
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || 'https://acbackendswift-90223035273.us-east4.run.app'
+const API_URL = import.meta.env.DEV
+  ? '/api/projects' // Use proxy in development
+  : `${API_BASE_URL}/projects` // Use full URL in production
+
 async function fetchProjects() {
   error.value = null
   isLoading.value = true
   try {
-    const response = await fetch('/api/projects')
+    const response = await fetch(API_URL)
     if (!response.ok) {
       throw new Error(`Failed with status ${response.status}`)
     }
