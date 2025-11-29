@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import ProjectsList from '@/components/ProjectsList.vue'
+import { Analytics } from '@vercel/analytics/vue'
 </script>
 
 <template>
+  <Analytics />
   <div class="main-container">
     <header>
       <nav>
